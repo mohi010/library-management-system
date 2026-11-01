@@ -30,8 +30,8 @@ A complete, production-grade Library Management System built with a normalized r
 
 ### 2. Clone the Repository
 ```bash
-git clone <YOUR-GITHUB-REPO-URL>
-cd "DBMS Project"
+git clone https://github.com/mohi010/library-management-system.git
+cd library-management-system
 ```
 
 ---
@@ -101,3 +101,4 @@ python test_api.py
     └── static/
         └── index.html        # Single-page web desk interface
 ```
+
