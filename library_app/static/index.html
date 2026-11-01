@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reading Room | Modern Library Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  
+  --bg-app: #0f1412;
+  --bg-surface: #151c18;
+  --bg-surface-elevated: #1b241f;
+  --bg-surface-hover: #222d27;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-focus: #10b981;
+  
+  --text-main: #f0fdf4;
+  --text-muted: #94a39b;
+  --text-dim: #64746b;
+  
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-glow: rgba(16, 185, 129, 0.2);
+  --primary-fg: #042f2e;
+  
+  --accent: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.15);
+  
+  --danger: #f43f5e;
+  --danger-bg: rgba(244, 63, 94, 0.12);
+  --danger-border: rgba(244, 63, 94, 0.3);
+  
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.12);
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+  
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 1px 1px var(--border-subtle);
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 40%);
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header & Nav */
+header {
+  padding: 24px 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary), #059669);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  box-shadow: 0 0 20px var(--primary-glow);
+}
+
+h1.logo-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, #fff, #a7f3d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 13.5px;
+}
+
+.user-badge .role-tag {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Nav Pills */
+nav#tabs {
+  display: flex;
+  gap: 8px;
+  padding: 20px 0 24px;
+  overflow-x: auto;
+}
+
+nav#tabs button {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+nav#tabs button:hover {
+  color: var(--text-main);
+  background: var(--bg-surface);
+}
+
+nav#tabs button.on {
+  background: var(--bg-surface-elevated);
+  color: #fff;
+  border-color: var(--border-medium);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+nav#tabs button.on::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* Main Layout */
+main#main {
+  padding-bottom: 60px;
+}
+
+/* Typography & Section headers */
+h2.section-heading {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  margin: 32px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Cards & Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-medium);
+  background: var(--bg-surface-elevated);
+}
+
+.stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  color: #fff;
+}
+
+.stat-card.alert .stat-value { color: var(--danger); }
+.stat-card.good .stat-value { color: var(--primary); }
+
+/* Forms & Inputs */
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.form-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e2e8f0;
+}
+
+input, select {
+  width: 100%;
+  background: var(--bg-app);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  transition: var(--transition);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+input::placeholder { color: var(--text-dim); }
+
+/* Buttons */
+button {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button.primary {
+  background: var(--primary);
+  color: var(--primary-fg);
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+
+button.primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+button.ghost {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+}
+
+button.ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-medium);
+}
+
+button.danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+
+button.danger:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* Item List / Cards */
+.item-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: var(--transition);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.item-card:hover {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.item-card.late {
+  border-left: 5px solid var(--danger);
+  background: linear-gradient(to right, rgba(244, 63, 94, 0.05), var(--bg-surface));
+}
+
+.item-main {
+  flex: 1;
+}
+
+.item-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-subtitle {
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.item-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+}
+
+.tag.status-avail {
+  background: var(--success-bg);
+  color: #6ee7b7;
+}
+
+.tag.status-late {
+  background: var(--danger-bg);
+  color: #fca5a5;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Search Bar */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-wrapper input {
+  padding-left: 44px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  font-size: 14px;
+  display: none;
+  z-index: 1000;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Auth Modal */
+#login {
+  max-width: 400px;
+  margin: 12vh auto;
+  padding: 0 20px;
+}
+
+#login .panel {
+  padding: 36px 30px;
+  text-align: center;
+}
+
+#login h1 {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+#login p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+#login form {
+  display: grid;
+  gap: 16px;
+  text-align: left;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-dim);
+  font-size: 15px;
+}
+
+@media(max-width: 640px) {
+  .item-card { flex-direction: column; align-items: flex-start; }
+  .item-actions { width: 100%; justify-content: flex-start; margin-top: 12px; }
+  header { flex-direction: column; gap: 14px; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div id="login" hidden>
+  <div class="panel">
+    <div class="logo-icon" style="margin: 0 auto 16px; width: 50px; height: 50px; font-size: 24px;">📚</div>
+    <h1>Reading Room</h1>
+    <p>Sign in with your librarian or administrator account.</p>
+    <form onsubmit="signIn(event)">
+      <div>
+        <label style="font-size: 12.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Staff Email</label>
+        <input name="email" type="email" placeholder="admin@library.example" required autocomplete="username" style="margin-top: 6px;">
+      </div>
+      <div>
+        <label style="font-size: 12.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Password</label>
+        <input name="password" type="password" placeholder="••••••••" required autocomplete="current-password" style="margin-top: 6px;">
+      </div>
+      <button class="primary" style="margin-top: 8px; padding: 14px;">Sign in to Desk</button>
+    </form>
+  </div>
+</div>
+
+<div id="app" hidden class="container">
+  <header>
+    <div class="logo-area">
+      <div class="logo-icon">📖</div>
+      <h1 class="logo-title">Reading Room</h1>
+    </div>
+    <div class="user-badge">
+      <span id="who" style="font-weight: 600;"></span>
+      <button class="ghost" onclick="signOut()" style="padding: 4px 10px; font-size: 12px; border-radius: var(--radius-pill);">Sign out</button>
+    </div>
+  </header>
+
+  <nav id="tabs"></nav>
+  <main id="main"></main>
+</div>
+
+<div id="toast" role="status"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let me = null, cur = 'dash', L = {};
+
+async function api(p, m = 'GET', b) {
+  const r = await fetch('/api/' + p, {
+    method: m,
+    headers: { 'Content-Type': 'application/json' },
+    body: b ? JSON.stringify(b) : undefined
+  });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401 && p !== 'login') { showLogin(); throw new Error(j.error); }
+  if (!r.ok) throw new Error(j.error || 'Request failed');
+  return j;
+}
+
+function toast(t) {
+  const e = $('#toast');
+  e.textContent = t;
+  e.style.display = 'block';
+  clearTimeout(e.t);
+  e.t = setTimeout(() => e.style.display = 'none', 3200);
+}
+
+const guard = f => async (...a) => { try { await f(...a); } catch (e) { toast(e.message); } };
+const form = e => { e.preventDefault(); return Object.fromEntries(new FormData(e.target)); };
+const opt = a => a.map(x => `<option value="${x.id}">${esc(x.name)}</option>`).join('');
+const day = d => String(d).slice(0, 10);
+
+function showLogin() { $('#app').hidden = true; $('#login').hidden = false; }
+
+const signIn = guard(async e => {
+  me = await api('login', 'POST', form(e));
+  await boot();
+});
+
+const signOut = guard(async () => {
+  await api('logout', 'POST');
+  showLogin();
+});
+
+async function boot() {
+  me = await api('me');
+  L = await api('lookups');
+  $('#login').hidden = true;
+  $('#app').hidden = false;
+  $('#who').innerHTML = `${esc(me.name)} <span class="role-tag">${esc(me.role)}</span>`;
+  
+  $('#tabs').innerHTML = [
+    ['dash', '📊 Desk'],
+    ['books', '📚 Catalog'],
+    ['members', '👥 Members'],
+    ['loans', '🔄 Loans & Circulation'],
+    ['fines', '💰 Fines']
+  ].map(([k, n]) => `<button class="${k === cur ? 'on' : ''}" data-k="${k}" onclick="show('${k}')">${n}</button>`).join('');
+
+  show(cur);
+}
+
+const show = guard(async k => {
+  cur = k;
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
+  $('#main').innerHTML = await V[k]();
+  if (LST[k]) await LST[k]();
+});
+
+const act = (path, msg, method = 'POST') => guard(async () => {
+  await api(path, method);
+  toast(msg);
+  await show(cur);
+});
+
+const loanCards = r => r.length ? r.map(l => {
+  const late = !l.return_date && day(l.due_date) < new Date().toISOString().slice(0, 10);
+  return `
+    <div class="item-card ${late ? 'late' : ''}">
+      <div class="item-main">
+        <div class="item-title">
+          <span>${esc(l.title)}</span>
+          <span class="tag">Copy #${l.copy_no}</span>
+          ${late ? '<span class="tag status-late">Overdue</span>' : ''}
+        </div>
+        <div class="item-subtitle">
+          Borrowed by <b style="color:var(--text-main);">${esc(l.member)}</b> • Due ${day(l.due_date)}
+          ${l.return_date ? ` • Returned on ${day(l.return_date)}` : ''}
+        </div>
+      </div>
+      <div class="item-actions">
+        ${l.return_date ? '<span class="tag" style="background:rgba(255,255,255,0.05);">Returned</span>' : `
+          <button class="primary" onclick="act('loans/${l.loan_id}/return','Book marked returned')()">Return</button>
+          <button class="ghost" onclick="act('loans/${l.loan_id}/renew','Loan period renewed')()">Renew</button>
+        `}
+      </div>
+    </div>`;
+}).join('') : '<div class="empty-state">No loans found. Issue one above.</div>';
+
+const V = {}, LST = {};
+
+/* DASHBOARD */
+V.dash = async () => {
+  const s = await api('stats'), o = await api('loans?state=overdue');
+  return `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Titles</div>
+        <div class="stat-value">${s.books}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Copies</div>
+        <div class="stat-value">${s.copies}</div>
+      </div>
+      <div class="stat-card good">
+        <div class="stat-label">Active Members</div>
+        <div class="stat-value">${s.members}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Books Out</div>
+        <div class="stat-value">${s.open_loans}</div>
+      </div>
+      <div class="stat-card ${s.overdue > 0 ? 'alert' : ''}">
+        <div class="stat-label">Overdue</div>
+        <div class="stat-value">${s.overdue}</div>
+      </div>
+      <div class="stat-card ${s.unpaid > 0 ? 'alert' : ''}">
+        <div class="stat-label">Unpaid Fines</div>
+        <div class="stat-value">₹${s.unpaid}</div>
+      </div>
+    </div>
+    
+    <h2 class="section-heading">
+      <span>⚠️ Overdue Loans Requiring Action</span>
+      <span style="font-size:14px; font-family:var(--font-sans); color:var(--text-muted); font-weight:normal;">${o.length} currently late</span>
+    </h2>
+    ${loanCards(o)}`;
+};
+
+/* BOOKS */
+V.books = async () => `
+  <div class="panel">
+    <div class="form-title">➕ Add New Title to Catalog</div>
+    <form onsubmit="addBook(event)">
+      <div class="form-grid">
+        <input name="isbn" placeholder="ISBN (13 digits)" required minlength="13" maxlength="13">
+        <input name="title" placeholder="Book Title" required>
+        <input name="pub_year" type="number" placeholder="Publication Year (e.g. 2024)">
+        <select name="publisher_id">${opt(L.publishers)}</select>
+        <select name="category_id">${opt(L.categories)}</select>
+        <input name="authors" placeholder="Authors (comma separated)" required>
+        <input name="copies" type="number" min="1" value="1" placeholder="Initial Copies">
+      </div>
+      <button class="primary" style="margin-top: 16px;">Save to Catalog</button>
+    </form>
+  </div>
+
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input id="q" placeholder="Search catalog by title, author, category or ISBN..." oninput="LST.books()">
+  </div>
+  <div id="list"></div>`;
+
+LST.books = guard(async () => {
+  const r = await api('books?q=' + encodeURIComponent($('#q').value));
+  $('#list').innerHTML = r.length ? r.map(b => `
+    <div class="item-card">
+      <div class="item-main">
+        <div class="item-title">
+          <span>${esc(b.title)}</span>
+          ${b.pub_year ? `<span class="tag">${b.pub_year}</span>` : ''}
+        </div>
+        <div class="item-subtitle">
+          By <b>${esc(b.authors)}</b> • ${esc(b.category)} • Published by ${esc(b.publisher)}
+        </div>
+        <div class="item-tags">
+          <span class="tag ${b.available > 0 ? 'status-avail' : 'status-late'}">
+            ${b.available} of ${b.copies} copies available on shelf
+          </span>
+          <span class="tag">ISBN: ${b.isbn}</span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="ghost" onclick="addCopy('${b.isbn}')">+ Add Copy</button>
+        <button class="ghost" onclick="editBook('${b.isbn}','${esc(b.title).replace(/'/g, "\\'")}')">Edit Title</button>
+        ${me.role === 'Admin' ? `<button class="danger" onclick="delBook('${b.isbn}')">Delete</button>` : ''}
+      </div>
+    </div>`).join('') : '<div class="empty-state">No books match your query.</div>';
+});
+
+const addBook = guard(async e => {
+  const d = form(e);
+  d.authors = d.authors.split(',');
+  await api('books', 'POST', d);
+  toast('Title added to catalog');
+  await show('books');
+});
+
+const addCopy = guard(async i => {
+  const r = await api(`books/${i}/copies`, 'POST', {});
+  toast('Added copy #' + r.copy_no);
+  LST.books();
+});
+
+const editBook = guard(async (i, t) => {
+  const n = prompt('Edit Title:', t);
+  if (!n) return;
+  await api('books/' + i, 'PUT', { title: n });
+  toast('Title updated');
+  LST.books();
+});
+
+const delBook = guard(async i => {
+  if (!confirm('Are you sure you want to permanently delete this book and all copies?')) return;
+  await api('books/' + i, 'DELETE');
+  toast('Book deleted');
+  LST.books();
+});
+
+/* MEMBERS */
+V.members = async () => `
+  <div class="panel">
+    <div class="form-title">👤 Enroll New Member</div>
+    <form onsubmit="addMember(event)">
+      <div class="form-grid">
+        <input name="first_name" placeholder="First Name" required>
+        <input name="last_name" placeholder="Last Name" required>
+        <input name="email" type="email" placeholder="Email Address" required>
+        <input name="address" placeholder="Address">
+        <input name="dob" type="date" required title="Date of Birth">
+        <select name="type_id">${opt(L.types)}</select>
+        <input name="phones" placeholder="Phone numbers (comma separated)">
+      </div>
+      <button class="primary" style="margin-top: 16px;">Enroll Member</button>
+    </form>
+  </div>
+  <div id="list"></div>`;
+
+LST.members = guard(async () => {
+  const r = await api('members');
+  $('#list').innerHTML = r.map(m => `
+    <div class="item-card">
+      <div class="item-main">
+        <div class="item-title">
+          <span>${esc(m.first_name)} ${esc(m.last_name)}</span>
+          <span class="tag">${esc(m.type_name)}</span>
+          ${!m.is_active ? '<span class="tag status-late">Inactive</span>' : ''}
+        </div>
+        <div class="item-subtitle">
+          ${esc(m.email)} • Valid until ${day(m.expiry_date)}
+        </div>
+        <div class="item-tags">
+          <span class="tag">${m.books_out} book(s) out</span>
+          ${m.address ? `<span class="tag">📍 ${esc(m.address)}</span>` : ''}
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="ghost" onclick="hist(${m.member_id})">Loan History</button>
+        <button class="ghost" onclick="editMember(${m.member_id})">Edit Email</button>
+        ${me.role === 'Admin' && m.is_active ? `
+          <button class="danger" onclick="act('members/${m.member_id}','Member deactivated','DELETE')()">Deactivate</button>
+        ` : ''}
+      </div>
+    </div>`).join('');
+});
+
+const addMember = guard(async e => {
+  const d = form(e);
+  d.phones = d.phones ? d.phones.split(',') : [];
+  await api('members', 'POST', d);
+  toast('Member successfully enrolled');
+  await show('members');
+});
+
+const editMember = guard(async i => {
+  const n = prompt('Enter new email address:');
+  if (!n) return;
+  await api('members/' + i, 'PUT', { email: n });
+  toast('Email updated');
+  LST.members();
+});
+
+const hist = guard(async i => {
+  const r = await api(`members/${i}/history`);
+  alert(r.length ? r.map(l => `• ${l.title}\n  Issued: ${day(l.issue_date)} | Return: ${l.return_date ? day(l.return_date) : 'STILL OUT'}`).join('\n\n') : 'No borrowing history recorded yet.');
+});
+
+/* LOANS */
+V.loans = async () => {
+  const [m, c] = await Promise.all([api('members'), api('copies/available')]);
+  return `
+    <div class="panel">
+      <div class="form-title">⚡ Issue a Book Copy</div>
+      <form onsubmit="issue(event)">
+        <div class="form-grid" style="grid-template-columns: 1fr 1.5fr auto;">
+          <select name="member_id" required>
+            <option value="" disabled selected>Select Active Member...</option>
+            ${m.filter(x => x.is_active).map(x => `<option value="${x.member_id}">${esc(x.first_name)} ${esc(x.last_name)} (${esc(x.type_name)})</option>`).join('')}
+          </select>
+          <select name="copy" required>
+            <option value="" disabled selected>Select Available Book Copy...</option>
+            ${c.map(x => `<option value="${x.isbn}|${x.copy_no}">${esc(x.title)} (Copy #${x.copy_no})</option>`).join('')}
+          </select>
+          <button class="primary">Issue Loan</button>
+        </div>
+      </form>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+      <h2 class="section-heading" style="margin:0;">Circulation Records</h2>
+      <select id="st" onchange="LST.loans()" style="width: auto; padding: 8px 14px; border-radius: var(--radius-pill);">
+        <option value="open">Currently Issued (Out)</option>
+        <option value="overdue">Overdue Only</option>
+        <option value="all">All Loans (Including Returned)</option>
+      </select>
+    </div>
+    <div id="list"></div>`;
+};
+
+LST.loans = guard(async () => {
+  $('#list').innerHTML = loanCards(await api('loans?state=' + $('#st').value));
+});
+
+const issue = guard(async e => {
+  const d = form(e), [isbn, copy_no] = d.copy.split('|');
+  await api('loans', 'POST', { member_id: d.member_id, isbn, copy_no });
+  toast('Book copy successfully issued');
+  await show('loans');
+});
+
+/* FINES */
+V.fines = async () => `
+  <div style="margin-bottom: 20px;">
+    <h2 class="section-heading" style="margin:0;">Late Return Fines</h2>
+    <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">Fines are automatically assessed when an overdue copy is checked back in.</p>
+  </div>
+  <div id="list"></div>`;
+
+LST.fines = guard(async () => {
+  const r = await api('fines');
+  $('#list').innerHTML = r.length ? r.map(f => {
+    const isUnpaid = f.paid_status === 'Unpaid';
+    return `
+      <div class="item-card ${isUnpaid ? 'late' : ''}">
+        <div class="item-main">
+          <div class="item-title">
+            <span style="font-size:20px; font-weight:800; color:${isUnpaid ? 'var(--danger)' : 'var(--primary)'};">₹${f.amount}</span>
+            <span class="tag ${isUnpaid ? 'status-late' : 'status-avail'}">${esc(f.paid_status)}</span>
+          </div>
+          <div class="item-subtitle">
+            Member: <b style="color:var(--text-main);">${esc(f.member)}</b> • Book: <i>${esc(f.title)}</i>
+          </div>
+        </div>
+        <div class="item-actions">
+          ${isUnpaid ? `
+            <button class="primary" onclick="act('fines/${f.fine_id}/pay','Fine marked as paid')()">Collect & Mark Paid</button>
+          ` : '<span class="tag" style="background:rgba(255,255,255,0.05);">Settled</span>'}
+        </div>
+      </div>`;
+  }).join('') : '<div class="empty-state">No fines on record. Overdue book returns will register here automatically.</div>';
+});
+
+api('me').then(boot).catch(showLogin);
+</script>
+</body>
+</html>

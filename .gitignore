@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.secret_key
+venv/
+env/
+
+# MySQL local data & temporary files
+mysql_data/
+*.log
+*.pid
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
